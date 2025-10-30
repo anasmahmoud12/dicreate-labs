@@ -67,7 +67,7 @@ Main object=new Main();
         expression1.setRepresentation(expression);
 
         String infix = expression1.getRepresentation();
-System.out.println(infix);
+System.out.printf("the expression is : %s \n",infix);
 
 
 try {
@@ -90,7 +90,7 @@ catch (RuntimeException e  ){
 //to get values of symbols
         InfixToPrefixImpl infixToPrefix=new InfixToPrefixImpl();
         String prefix=infixToPrefix.infixToPrefix(infix);
-System.out.println(prefix);
+System.out.printf("the prefix is :  %s \n",prefix);
         //intilal add for symbols
         for (int i=0;i<prefix.length();++i){
             char a=prefix.charAt(i);
