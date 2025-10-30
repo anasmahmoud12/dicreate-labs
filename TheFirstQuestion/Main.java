@@ -15,13 +15,39 @@ import java.util.Scanner;
  class Main {
      Map<Character,Integer>keysValues=new HashMap<>();
 
-public void  addSymbol(String key,String value) {
+     public String ex(String input){
+         int k=0;
+         StringBuilder stringBuilder=new StringBuilder();
+         for( k=0;k<input.length();++k){
+             char a=input.charAt(k);
+
+            if(a=='('||(a>='A'&&a<='Z')){
+                 for (int i=k;i<input.length();++i){
+                     a=input.charAt(i);
+                     if(a<='z' && a>='a'&& a!='v'){
+                         break;
+                     }
+
+                     stringBuilder.append(a);
+
+                 }
+                 break;
+             }
+         }
+   return stringBuilder.toString();
+     }
+
+public void  addSymbol(Character key,String value)throws RuntimeException {
     int a=0;
-    if(value.equals("true")){
+    if(value.equals("true")||value.equals("1")){
         a=1;
     }
+    else if(value.equals("false")||value.equals("0")) {}
+    else{
+        throw new RuntimeException("not valid value enter true or one false or zero ");
+    }
 
-    this.keysValues.put(key.charAt(0),a);
+    this.keysValues.put(key,a);
 
 }
 
@@ -29,25 +55,19 @@ public void  addSymbol(String key,String value) {
 
 Main object=new Main();
         Scanner input = new Scanner(System.in);
-        String expression = input.nextLine();
-        int k = 0;
-        for (k = 0; k < expression.length(); ++k) {
-
-            char a = expression.charAt(k);
-            if (a == '\"') {
-                break;
-            }
-
-        }
+        String expression;
 
 
-expression=expression.substring(k+1,expression.length()-1);
+
+        System.out.println("Enter the Expression : ");
+//        remove white spaces and qutation \" specail char
+     expression=  input.nextLine().replaceAll("[\\s\"”]+","");
+     expression=object.ex(expression);
         Expression expression1=new ExpressionImpl();
         expression1.setRepresentation(expression);
 
-      String infix = expression1.getRepresentation();
+        String infix = expression1.getRepresentation();
 System.out.println(infix);
-
 
 
 try {
@@ -64,16 +84,51 @@ catch (EmptyStackException e  ){
 catch (RuntimeException e  ){
     System.out.println("Wrong Expression not valid prethenes");
     return;
+
 }
+
 //to get values of symbols
-        String date = input.nextLine();
-        String[] values = date.split(",|and");
-        int num_values = values.length;
-        for (int i = 0; i < num_values; ++i) {
-            String a = values[i];
-            String[] keyValue = a.split("=");
-object.addSymbol(keyValue[0].trim(),keyValue[1].trim());
+        InfixToPrefixImpl infixToPrefix=new InfixToPrefixImpl();
+        String prefix=infixToPrefix.infixToPrefix(infix);
+System.out.println(prefix);
+        //intilal add for symbols
+        for (int i=0;i<prefix.length();++i){
+            char a=prefix.charAt(i);
+
+
+            if((a>='A' && a<='Z')  ){
+
+                object.keysValues.put(a ,0);
+            }
         }
+
+
+
+
+
+        for (Character c:object.keysValues.keySet()){
+while (true){
+            System.out.printf("the value of proposition  %c : ",c);
+            String value =input.nextLine().trim();
+            try {
+                object.addSymbol(c,value.toLowerCase());
+
+break;
+
+            }
+            catch (RuntimeException e){
+             System.out.printf("the value of %c not appropirate enter again  ",c);
+
+            }
+
+
+        }
+        }
+
+
+
+
+
 
         LogicalExpressionSolver logicalExpressionSolver=new LogicalExpressionSolverImpl(object.keysValues);
 
