@@ -27,9 +27,9 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css","/home/anas/HCI-frontend/hci-frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": ["/home/anas/HCI-frontend/hci-frontend/node_modules/bootstrap/dist/js/bootstrap.min.js"]
           },
           "configurations": {
             "production": {
